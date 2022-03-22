@@ -7,13 +7,13 @@ No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurad
 
 ## Elasticsearch
 
-###Configurando o Elasticsearch no docker
+### Configurando o Elasticsearch no docker
 
 ```
 docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -it docker.elastic.co/elasticsearch/elasticsearch:8.1.0
 ```
 
-###Configurando o Kibana no docker
+### Configurando o Kibana no docker
 
 ```
 docker run -d --name kibana --link elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:8.1.0
