@@ -1,19 +1,19 @@
-​#​ Backend
-​Projeto em Java com intúito de praticar alguns conhecimentos e conceitos de projeto backend.
+# Backend
+Projeto em Java com intuito de praticar alguns conhecimentos e conceitos de projeto backend.
 
 Neste projeto será utilizado Spring Boot, Maven, Java 11, Elastisearch e Kafka.
 
 No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no Docker da seguinte forma.
 
-​##​ Elasticsearch
+## Elasticsearch
 
-​#​#​#Configurando o Elasticsearch no docker
+### Configurando o Elasticsearch no docker
 
 ```
 docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -it docker.elastic.co/elasticsearch/elasticsearch:8.1.0
 ```
 
-​#​#​#Configurando o Kibana no docker
+### Configurando o Kibana no docker
 
 ```
 docker run -d --name kibana --link elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:8.1.0
@@ -94,7 +94,7 @@ GET /records/_search
 }
 ```
 
-​##​ Testes
+## Testes
 
 Para os testes, este projeto irá utilizar os plugins **Surefire** e **FailSafe** para separarmos a execução dos testes unitários dos testes de integração
 
