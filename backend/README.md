@@ -3,7 +3,13 @@ Projeto em Java com intuito de praticar alguns conhecimentos e conceitos de proj
 
 Neste projeto será utilizado Spring Boot, Maven, Java 11, Elastisearch e Kafka.
 
-No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no Docker da seguinte forma.
+Ao clonar o projeto, se faz necessário baixar as dependências do mesmo e caso a própria IDE não faça isso e até mesmo para garantir que tudo esteja correto, o comando abaixo pode ajudar.
+
+```
+mvn clean package -Dskip.surefire.tests
+```
+
+No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no [Docker](https://docs.docker.com/get-docker/) da seguinte forma.
 
 ## Elasticsearch
 
@@ -19,7 +25,7 @@ docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=
 docker run -d --name kibana --link elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:8.1.0
 ```
 
-A estrutura do Document que será utilizado por essa api, pode ser vista a baixo, já no formato do comando que o Elasticsearch pede para que a estrutura seja criada.
+A estrutura do Document que será utilizado por essa api, pode ser vista a baixo, já no formato do comando que o Elasticsearch pede para que a estrutura seja criada. Esta estrutura pode ser inputada diretamente pelo Kibana.
 
 ```
 PUT /records
@@ -96,6 +102,6 @@ GET /records/_search
 
 ## Testes
 
-Para os testes, este projeto irá utilizar os plugins **Surefire** e **FailSafe** para separarmos a execução dos testes unitários dos testes de integração
+Para os testes, este projeto irá utilizar os plugins **Surefire** e **FailSafe** para separarmos a execução dos testes unitários dos testes de integração, até por este motivo, o comando de clean package utiliza skip.surefire.tests, pois é como o surifere foi configurado para os testes unitários.
 
 **OBS**: Este readme será atualizado conforme o projeto for avançando.
