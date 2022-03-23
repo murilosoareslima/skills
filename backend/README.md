@@ -53,6 +53,8 @@ PUT /records
 		        "street" : { "type" : "text" },
 		        "number" :  { "type" : "integer" },
 		        "district" : { "type" : "text" },
+				"city" : { "type" : "text" },
+				"state" : { "type" : "text" },
 		        "complement" : { "type" : "text" }
 		      }
 		    }
@@ -83,6 +85,8 @@ PUT /records/_doc/1
   "addresses.street": "Rua Exemplo",
   "addresses.number": 1000,
   "addresses.district": "Bairro Exemplo",
+  "addresses.city": "Cidade Exemplo",
+  "addresses.state": "Estado Exemplo",
   "addresses.complement": "Complemento Exemplo"
 }
 ```
