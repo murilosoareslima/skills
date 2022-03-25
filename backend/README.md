@@ -11,6 +11,37 @@ mvn clean package -Dskip.surefire.tests
 
 No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no [Docker](https://docs.docker.com/get-docker/) da seguinte forma.
 
+### Exemplo de body válido
+
+```
+{
+  "name": "Nome Exemplo",
+  "age": 18,
+  "cpf" : 27348324029,
+  "phones": [
+    {
+      "ddd": "011",
+      "number": "111111111"
+    },
+    {
+      "ddd": "011",
+      "number": "11111111"
+    }
+  ],
+  "addresses": [
+      {
+        "cep": "13300000",
+        "street": "Rua Exemplo",
+        "number": 1000,
+        "district": "Bairro Exemplo",
+        "city": "Cidade Exemplo",
+        "state": "Estado Exemplo",
+        "complement": "Complemento Exemplo"
+      }
+  ]
+}
+```
+
 ## Elasticsearch
 
 ### Configurando o Elasticsearch no docker

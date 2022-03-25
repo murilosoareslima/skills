@@ -65,15 +65,15 @@ public class RecordTest {
         assertTrue(validate.isEmpty());
     }
 
-    private List<Adress> buildAdress(boolean hasValidCity) {
-        Adress adress = new Adress();
+    private List<Address> buildAdress(boolean hasValidCity) {
+        Address adress = new Address();
         adress.setCep("13300000");
         adress.setStreet("Rua Exemplo");
         adress.setDistrict("Bairro Exemplo");
         adress.setNumber(100);
         adress.setCity(hasValidCity ? "Itu" : "It");
         adress.setState("SP");
-        List<Adress> adressList = new ArrayList<>();
+        List<Address> adressList = new ArrayList<>();
         adressList.add(adress);
         return adressList;
     }
@@ -93,7 +93,7 @@ public class RecordTest {
         record.setName("Nome Exemplo");
         record.setAge(18);
         record.setCpf(hasValidCpf ? "27348324029" : "39912885554");
-        record.setAdresses(buildAdress(hasValidCity));
+        record.setAddresses(buildAdress(hasValidCity));
         if (hasPhone) {
             record.setPhones(buildPhones());
         }

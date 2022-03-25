@@ -36,6 +36,6 @@ public class Record {
 
     @ListConstraint(message = ADRESS_INVALID)
     @Valid
-    private List<Adress> adresses;
+    private List<Address> addresses;
 
 }

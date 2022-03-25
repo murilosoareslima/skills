@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Adress {
+public class Address {
     
     private static final String CEP_INVALID = "O cep informado não é válido";
     private static final String STREET_INVALID = "O logradouro informado não é válido";
