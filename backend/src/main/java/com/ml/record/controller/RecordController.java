@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.java.Log;
+
 @RestController
 @RequestMapping("/api")
+@Log
 public class RecordController {
 
     @PostMapping("/record")
@@ -23,6 +26,7 @@ public class RecordController {
         Response<Record> response = new Response<>();
         if (result.hasErrors()) {
             result.getAllErrors().stream().forEach(e ->  response.addErrorMsgToResponse(e.getDefaultMessage()));
+            log.warning("Erro no body da requisição " + response.getErrors().get(0));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }        
         response.setData(record);
