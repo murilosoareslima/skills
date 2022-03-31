@@ -4,7 +4,9 @@ import javax.validation.Valid;
 
 import com.ml.record.model.Record;
 import com.ml.record.response.Response;
+import com.ml.record.service.RecordService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,9 @@ import lombok.extern.java.Log;
 @Log
 public class RecordController {
 
+    @Autowired
+    private RecordService recordService;
+
     @PostMapping("/record")
     public ResponseEntity<Response<Record>> save(@Valid @RequestBody Record record,
             BindingResult result) {
@@ -28,7 +33,8 @@ public class RecordController {
             result.getAllErrors().stream().forEach(e ->  response.addErrorMsgToResponse(e.getDefaultMessage()));
             log.warning("Erro no body da requisição " + response.getErrors().get(0));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }        
+        }
+        recordService.save(record);
         response.setData(record);
         return ResponseEntity.ok().body(response);
     }
