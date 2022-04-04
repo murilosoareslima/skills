@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.ml.record.exception.RecordException;
 import com.ml.record.model.Record;
 import com.ml.record.response.Response;
 import com.ml.record.service.RecordService;
@@ -21,7 +22,6 @@ import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 @RestController
 @RequestMapping("/api/record")
 @Log
@@ -35,29 +35,50 @@ public class RecordController {
             BindingResult result) {
         Response<Record> response = new Response<>();
         if (result.hasErrors()) {
-            result.getAllErrors().stream().forEach(e ->  response.addErrorMsgToResponse(e.getDefaultMessage()));
+            result.getAllErrors().stream().forEach(e -> response.addErrorMsgToResponse(e.getDefaultMessage()));
             log.warning("Erro no body da requisição " + response.getErrors().get(0));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        recordService.save(record);
-        response.setData(record);
+        Record savedRecord = null;
+        try {
+            savedRecord = recordService.save(record);
+            response.setData(savedRecord);
+        } catch (Exception ex) {
+            String msgError = "Erro de servidor ao tentar salvar o cadastro \n" + ex.getCause();
+            response.addErrorMsgToResponse(msgError);
+            return ResponseEntity.internalServerError().body(response);
+        }        
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping(value="/{cpf}")
+    @GetMapping(value = "/{cpf}")
     public ResponseEntity<Response<Record>> getMethodName(@PathVariable String cpf) {
         Response<Record> response = new Response<>();
-        Optional<Record> opRecord = recordService.findByCpf(cpf);
+        Optional<Record> opRecord = Optional.empty();
         Record record = null;
-        if(opRecord.isPresent()) {
-            record = opRecord.get();
-        } else { 
-            log.info("Não encontrado um cadastro com cpf: " + cpf);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        try {
+            opRecord = recordService.findByCpf(cpf);
+            if (opRecord.isPresent()) {
+                record = opRecord.get();
+            } else {
+                String msgError = "Não encontrado um cadastro com cpf: " + cpf;
+                log.info(msgError);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
+        } catch (RecordException ex) {
+            String msgError = "O Cpf informado não é válido: " + cpf;
+            log.warning(msgError);
+            response.addErrorMsgToResponse(msgError);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch (Exception ex) {
+            String msgError = "Erro de servidor ao tentar fazer a consulta\n" + ex.getCause();
+            log.warning(msgError);
+            response.addErrorMsgToResponse(msgError);
+            return ResponseEntity.internalServerError().body(response);
         }
         log.info("Encontrado o cadastro com cpf: " + cpf);
         response.setData(record);
         return ResponseEntity.ok().body(response);
     }
-    
+
 }
