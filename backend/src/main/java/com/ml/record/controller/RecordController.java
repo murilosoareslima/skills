@@ -52,7 +52,7 @@ public class RecordController {
     }
 
     @GetMapping(value = "/{cpf}")
-    public ResponseEntity<Response<Record>> getMethodName(@PathVariable String cpf) {
+    public ResponseEntity<Response<Record>> findByCpf(@PathVariable String cpf) {
         Response<Record> response = new Response<>();
         Optional<Record> opRecord = Optional.empty();
         Record record = null;
