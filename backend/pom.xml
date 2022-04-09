@@ -98,7 +98,7 @@
 				<configuration>
 					<skipTests>${skip.surefire.tests}</skipTests>
 					<excludes>
-					<exclude>RecordControllerTest.java</exclude>
+						<exclude>RecordControllerTest.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
