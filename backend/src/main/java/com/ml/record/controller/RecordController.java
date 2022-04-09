@@ -48,6 +48,7 @@ public class RecordController {
             response.addErrorMsgToResponse(msgError);
             return ResponseEntity.internalServerError().body(response);
         }        
+        log.info("Cadastro salvo com sucesso!");
         return ResponseEntity.ok().body(response);
     }
 

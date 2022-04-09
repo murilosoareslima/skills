@@ -97,8 +97,9 @@
 				<version>2.20</version>
 				<configuration>
 					<skipTests>${skip.surefire.tests}</skipTests>
-					<parallel>all</parallel>
-					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<excludes>
+					<exclude>RecordControllerTest.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
