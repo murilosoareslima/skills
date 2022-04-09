@@ -11,6 +11,8 @@ mvn clean package -Dskip.surefire.tests
 
 ### Exemplo de body válido
 
+Abaixo tem um exemplo de um body que é aceito pela API, que devolve um status 200.
+
 ```
 {
   "name": "Nome Exemplo",
@@ -39,9 +41,9 @@ mvn clean package -Dskip.surefire.tests
   ]
 }
 ```
-No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no [Docker](https://docs.docker.com/get-docker/) da seguinte forma.
-
 ## Elasticsearch
+
+No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no [Docker](https://docs.docker.com/get-docker/) da seguinte forma.
 
 ### Configurando o Elasticsearch no docker
 
@@ -204,6 +206,31 @@ GET /records/_search
 
 ## Testes
 
-Para os testes, este projeto irá utilizar os plugins **Surefire** e **FailSafe** para separarmos a execução dos testes unitários dos testes de integração, até por este motivo, o comando de clean package utiliza skip.surefire.tests, pois é como o surifere foi configurado para os testes unitários.
+Para os testes, este projeto irá utilizar os plugins **Surefire** e **FailSafe** para separarmos a execução dos testes unitários e de integração, do teste de verificação, até por este motivo, o comando de clean package utiliza skip.surefire.tests, pois é como o surifere foi configurado para os testes unitários.
+
+### Executar os testes unitários
+
+Os teste unitários podem ser executados mesmo sem a aplicação estar rodando, assim como o Elasticsearch, que também não precisa estar rodando.
+
+```
+mvn test
+```
+
+### Executar os testes de integração
+
+Os testes de integração, necessitam que a aplicação esteja rodando assim como o Elasticsearch. Estes testes se encontram na classe RecordControllerTest.java e para que ele não fosse executado junto com o teste unitário, no pom.xml foi definido sua exclusão, por isso foi criado um comando específico para rodar apenas
+os testes de integração.
+
+```
+mvn test -Dtest=RecordControllerTest.java
+```
+
+### Executar teste de verificação
+
+Este comando irá rodar a classe DeployVerifyIT.java, que é responsável por validar se a aplicação está de pé, depois de todos os testes unitários e de integração terem rodado e a aplicação ter seu deploy realizado. O intúito deste teste é a confirmação que a aplicação subiu em produção.
+
+```
+mvn verify -Dskip.surefire.tests
+```
 
 **OBS**: Este readme será atualizado conforme o projeto for avançando.
