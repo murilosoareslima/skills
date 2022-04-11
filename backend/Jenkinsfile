@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Backend') {
+            steps {
+                bat 'mvn clean package -Dskip.surefire.tests'
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+        stage('Deploy Backend Dev') {
+            steps {
+                dir('target') {
+                    bat 'java -Delastic.username=elastic -Delastic.password=elastic -jar record-0.0.1-SNAPSHOT.jar'
+                }
+            }
+        }
+        stage('Integration Tests') {
+            sleep(10)
+            steps {
+                bat 'mvn test -Dtest=RecordControllerTest.java'
+            }
+        }
+        stage('Verify Deploy') {
+            sleep(10)
+            steps {
+                bat 'mvn verify -Dskip.surefire.tests'
+            }
+        }
+    }
+    post {
+        success {
+            emailext attachLog: true, body: 'Veja o log abaixo', subject: 'Build/Deploy realizados com sucesso.', to: 'murilodev.lima@outlook.com'
+        }
+        unsuccessful {
+            emailext attachLog: true, body: 'Veja o log abaixo', subject: 'Build falhou', to: 'murilodev.lima@outlook.com'
+        }
+    }
+}
