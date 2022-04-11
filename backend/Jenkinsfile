@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Integration Tests') {            
             steps {
-                sleep(10, SECONDS)
+                sleep(time: 10, unit: "SECONDS")
                 dir('backend') {
                     bat 'mvn test -Dtest=RecordControllerTest.java'
                 }
@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Verify Deploy') {            
             steps {
-                sleep(10, SECONDS)
+                sleep(time: 10, unit: "SECONDS")
                 dir('backend') {
                     bat 'mvn verify -Dskip.surefire.tests'
                 }
