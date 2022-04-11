@@ -3,17 +3,21 @@ pipeline {
     stages {
         stage('Build Backend') {
             steps {
-                bat 'mvn clean package -Dskip.surefire.tests'
+                dir('backend') {
+                    bat 'mvn clean package -Dskip.surefire.tests'
+                }
             }
         }
         stage('Unit Tests') {
             steps {
-                bat 'mvn test'
+                dir('backend') {
+                    bat 'mvn test'
+                }
             }
         }
         stage('Deploy Backend Dev') {
             steps {
-                dir('target') {
+                dir('backend/target') {
                     bat 'java -Delastic.username=elastic -Delastic.password=elastic -jar record-0.0.1-SNAPSHOT.jar'
                 }
             }
@@ -21,13 +25,17 @@ pipeline {
         stage('Integration Tests') {            
             steps {
                 sleep(10)
-                bat 'mvn test -Dtest=RecordControllerTest.java'
+                dir('backend') {
+                    bat 'mvn test -Dtest=RecordControllerTest.java'
+                }
             }
         }
         stage('Verify Deploy') {            
             steps {
                 sleep(10)
-                bat 'mvn verify -Dskip.surefire.tests'
+                dir('backend') {
+                    bat 'mvn verify -Dskip.surefire.tests'
+                }
             }
         }
     }
