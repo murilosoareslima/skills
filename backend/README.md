@@ -232,5 +232,36 @@ Este comando irá rodar a classe DeployVerifyIT.java, que é responsável por va
 ```
 mvn verify -Dskip.surefire.tests
 ```
+## Jenkins
+Com o jenkins instalado com a versão war, e com a JDK, MAVEN e o GitHub devidamente configurados seguindo a documentação disponível no site do [Jenkins.io](https://www.jenkins.io/doc/book/installing/war-file/)
+, utilizamos o comando abaixo para executá-lo localmente para as devidas configurações do Job responsável pela execução do Jenkinsfile..
+```
+java -jar jenkins.war --httpPort=8000
+```
+
+## Configurar o Job no Jenkins
+
+* Criamos um novo Job no Jenkins, escolhemos a opção Pipeline e na tela seguinte, na sessão Pipeline e campo Definition, escolhemos a opção Pipeline Script from SCM.
+	* No campo SCM definimos como Git
+	* Em Repositories, no campo Repository URL será colocado o link do github do projeto.
+	```
+	https://github.com/murilosoareslima/skills
+	```
+	* E finalizamos clicando em salvar.
+	
+* Devemos configura a notificação por email, que por sua vez, caso o build falhe ou até mesmo seja arrumado, será enviada para o email que está configurados
+no Jenkinsfile, no post do pipeline. Sendo assim, certifi-que de informar um email pessoal válido no Jenkinsfile.
+	* Clicamos no logo do Jenkins no canto superior esquerdo da tela, par irmos para home
+	* No menu a esquerda vamos em Gerenciar Jenkins
+	* Na tela seguinte, vamos em Gerenciar plugins e por sua vez, vamos na aba Instalados
+	* Procuramos pelas opções Mailer e Email Extension, e ambas precisam estar instaladas.
+	* Voltando para a home do Jenkins, Gerenciar Jenkins e agora na opção Configurar o Sistema, procuramos por Notificação de Email e Extended E-mail Notification.
+	* Em ambos lugares, no campo SMTP server, coloca-se o smtp do email que do qual se deseja enviar as notificações (Ex. smtp-mail.outlook.com)
+	* Nas opções que se abrem, habilitar o Use SMTP Authentication, ai será necessário fornecer o email e senha. 
+	* Habilitar também, a opção Usar SSL ou TLS dependendo do SMTP escolhido.
+	* Por fim, a porta do SMTP (Ex. 587).
+
+**OBS:** Para este projeto, a execução do Job será feita manualmente mas é possível configurar o Jenkins para verificar no github de tempo em tempo se houve
+algum comite novo, ou até mesmo, caso o Jenkins esteja com acesso externo disponível, pode configurar para que o GitHub avise quando houver novos commits.
 
 **OBS**: Este readme será atualizado conforme o projeto for avançando.
