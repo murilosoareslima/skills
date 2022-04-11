@@ -18,15 +18,15 @@ pipeline {
                 }
             }
         }
-        stage('Integration Tests') {
-            sleep(10)
+        stage('Integration Tests') {            
             steps {
+                sleep(10)
                 bat 'mvn test -Dtest=RecordControllerTest.java'
             }
         }
-        stage('Verify Deploy') {
-            sleep(10)
+        stage('Verify Deploy') {            
             steps {
+                sleep(10)
                 bat 'mvn verify -Dskip.surefire.tests'
             }
         }
