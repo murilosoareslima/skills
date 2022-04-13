@@ -241,12 +241,14 @@ java -jar jenkins.war --httpPort=8000
 
 ## Configurar o Job no Jenkins
 
+* Utilizaremos a opção pipeline do Jenkins onde será informado o arquivo Jenkinsfile que econtra-se configurado no projeto backend.
 * Criamos um novo Job no Jenkins, escolhemos a opção Pipeline e na tela seguinte, na sessão Pipeline e campo Definition, escolhemos a opção Pipeline Script from SCM.
 	* No campo SCM definimos como Git
 	* Em Repositories, no campo Repository URL será colocado o link do github do projeto.
 	```
 	https://github.com/murilosoareslima/skills
 	```
+	* No campo Script Path colocamos backend/Jenkinsfile que é onde o arquivo se encontra.
 	* E finalizamos clicando em salvar.
 	
 * Devemos configura a notificação por email, que por sua vez, caso o build falhe ou até mesmo seja arrumado, será enviada para o email que está configurados
