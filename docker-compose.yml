@@ -1,8 +1,7 @@
 version: '2'
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1    
     ports:
       - 9200:9200
       - 9300:9300
@@ -10,8 +9,7 @@ services:
       discovery.type: "single-node"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
-    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.10.1    
     restart: always
     depends_on:
       - elasticsearch
