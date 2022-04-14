@@ -8,6 +8,11 @@ Ao clonar o projeto, se faz necessário baixar as dependências do mesmo e caso 
 ```
 mvn clean package -Dskip.surefire.tests
 ```
+Outro comando necessário, é o que vai criar as imagens do docker necessárias para que o projeto funcione. Na pasta do projeto, onde fica o docker-compose.yml, rodamos os comandos:
+```
+docker-compose build
+docker-compose up -d
+```
 
 ### Exemplo de body válido
 
@@ -41,25 +46,15 @@ Abaixo tem um exemplo de um body que é aceito pela API, que devolve um status 2
   ]
 }
 ```
+Tanto a rota POST quanto a GET que salva e consulta, respectivamente, um registro, em caso de sucesso, retonarm JSON do resgistro salvo além do código de status 200.
+
 ## Elasticsearch
 
 No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no [Docker](https://docs.docker.com/get-docker/) da seguinte forma.
 
-### Configurando o Elasticsearch no docker
-
-```
-docker run -d --name=elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-```
-
-### Configurando o Kibana no docker
-
-```
-docker run -d --name=kibana --link=elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.10.1
-```
-
 ### Configurando autenticação do elasticsearch
 
-Conecte-se ao elastic search, clicando em CLI na tela do Docker for windows ou executando o comando abaixo
+Com o docker rodando as imagens conforme consta no docker-compose.yml, conecte-se ao elastic search, clicando em CLI na tela do Docker for windows ou executando o comando abaixo:
 
 ```
 docker exec -it elasticsearch bash
@@ -242,7 +237,7 @@ java -jar jenkins.war --httpPort=8000
 ## Configurar o Job no Jenkins
 
 * Utilizaremos a opção pipeline do Jenkins onde será informado o arquivo Jenkinsfile que econtra-se configurado no projeto backend.
-* Criamos um novo Job no Jenkins, escolhemos a opção Pipeline e na tela seguinte, na sessão Pipeline e campo Definition, escolhemos a opção Pipeline Script from SCM.
+* Criamos um novo Job no Jenkins e, para facilitar e não ter que configurar 2x a autenticação que foi feita no Elasticsearch, criamos o Job no Jenkins, com o mesmo nome do projeto (skills), mas, essa facilidade, só vai acontecer se o Jenkins estiver rodando na mesma máquina que o docker, caso contrário. Seguindo, escolhemos a opção Pipeline e na tela seguinte, na sessão Pipeline e campo Definition, escolhemos a opção Pipeline Script from SCM.
 	* No campo SCM definimos como Git
 	* Em Repositories, no campo Repository URL será colocado o link do github do projeto.
 	```
