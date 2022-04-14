@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Deploy Backend Dev') {
             steps {
-                sleep(time: 20, unit: "SECONDS")
+                sleep(time: 60, unit: "SECONDS")
                 dir('backend/target') {
                     bat 'start java -Delastic.username=elastic -Delastic.password=elastic -jar record-0.0.1-SNAPSHOT.jar'
                 }
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Integration Tests') {            
             steps {
-                sleep(time: 15, unit: "SECONDS")
+                sleep(time: 20, unit: "SECONDS")
                 dir('backend') {
                     bat 'mvn test -Dtest=RecordControllerTest.java'
                 }
