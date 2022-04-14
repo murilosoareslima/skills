@@ -8,7 +8,7 @@ Ao clonar o projeto, se faz necessário baixar as dependências do mesmo e caso 
 ```
 mvn clean package -Dskip.surefire.tests
 ```
-Outro comando necessário, é o que vai criar as imagens do docker necessárias para que o projeto funcione. Na pasta do projeto, onde fica o docker-compose.yml, rodamos os comandos:
+Com o [Docker](https://docs.docker.com/get-docker/) instalado na máquina, outro comando necessário, é o que irá criar as imagens do docker, com os serviços que o projeto precisa para funcionar. Na pasta do projeto, onde fica o docker-compose.yml, rodamos os comandos:
 ```
 docker-compose build
 docker-compose up -d
@@ -50,7 +50,7 @@ Tanto a rota POST quanto a GET que salva e consulta, respectivamente, um registr
 
 ## Elasticsearch
 
-No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no [Docker](https://docs.docker.com/get-docker/) da seguinte forma.
+No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurado no Docker da seguinte forma.
 
 ### Configurando autenticação do elasticsearch
 
