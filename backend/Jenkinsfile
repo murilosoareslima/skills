@@ -15,8 +15,15 @@ pipeline {
                 }
             }
         }
+        stage('Dev Environment Up') {
+            steps {
+                bat 'docker-compose build'
+                bat 'docker-compose up -d'
+            }
+        }
         stage('Deploy Backend Dev') {
             steps {
+                sleep(time: 10, unit: "SECONDS")
                 dir('backend/target') {
                     bat 'start java -Delastic.username=elastic -Delastic.password=elastic -jar record-0.0.1-SNAPSHOT.jar'
                 }
