@@ -57,7 +57,7 @@ No caso do Elasticsearch, o mesmo, para ser utilizado localmente, foi configurad
 Com o docker rodando as imagens conforme consta no docker-compose.yml, conecte-se ao elastic search, clicando em CLI na tela do Docker for windows ou executando o comando abaixo:
 
 ```
-docker exec -it elasticsearch bash
+docker exec -it skills_elasticsearch_1 bash
 ```
 
 Vá até a pasta config.
@@ -93,7 +93,7 @@ Responda com y a pergunta que aparecer no terminal e defina as senhas que deseja
 Agora, vamos configurar a autenticação do kibana com o elasticsearch. Para isso, entre da mesma forma que fizemos no elasticsearch. Pelo CLI da tela
 ou via comando
 ```
-docker exec -it kibana bash
+docker exec -it skills_kibana_1 bash
 ```
 
 Vá até o diretório config.
