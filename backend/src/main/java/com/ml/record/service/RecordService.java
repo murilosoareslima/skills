@@ -2,7 +2,9 @@ package com.ml.record.service;
 
 import java.util.Optional;
 
+import com.google.gson.Gson;
 import com.ml.record.exception.RecordException;
+import com.ml.record.kafka.MessageProducer;
 import com.ml.record.model.Record;
 import com.ml.record.repository.RecordRepository;
 
@@ -15,8 +17,15 @@ public class RecordService {
     @Autowired
     private RecordRepository recordRepository;
 
+    @Autowired
+    private MessageProducer messageProducer;
+
     public Record save(Record record) {        
-        return recordRepository.save(record);
+        Record recordSaved = recordRepository.save(record);
+        if(recordSaved != null && !recordSaved.getCpf().isBlank()) {            
+            messageProducer.sendMessage(recordSaved);
+        }
+        return recordSaved;
     }
 
     public Optional<Record> findByCpf(String cpf) throws RecordException {
