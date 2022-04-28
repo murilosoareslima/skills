@@ -199,6 +199,25 @@ GET /records/_search
 }
 ```
 
+## Kafka
+
+O Kafka, assim como o Elasticsearch, foi configurado no Docker, e após ter rodado o comando **docker-compose up -d** comentado anteriormente, com o Kafka rodando
+precisaremos criar o tópico que será utilizado.
+
+### Configurando o tópico no Kafka.
+
+Pelo CLI da tela do Docker Windows ou via prompt de comando, entre na imagem do docker.
+
+```
+docker exec -it skills_kafka_1 bash
+```
+
+Agora rodamos o comando que irá criar um tópico chamado record no Kafka, com 2 partições e 1 réplica, pois estamos configurando apenas 1 Brocker.
+
+```
+kafka-topics --create --bootstrap-server localhost:9092 --partitions 2 --replication-factor 1 --topic record
+```
+
 ## Testes
 
 Para os testes, este projeto irá utilizar os plugins **Surefire** e **FailSafe** para separarmos a execução dos testes unitários e de integração, do teste de verificação, até por este motivo, o comando de clean package utiliza skip.surefire.tests, pois é como o surifere foi configurado para os testes unitários.
