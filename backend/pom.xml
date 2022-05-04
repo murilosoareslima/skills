@@ -52,11 +52,6 @@
 			<artifactId>spring-data-elasticsearch</artifactId>
 			<version>4.0.0.RELEASE</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -104,6 +99,7 @@
 					<skipTests>${skip.surefire.tests}</skipTests>
 					<excludes>
 						<exclude>RecordControllerTest.java</exclude>
+						<exclude>MessageProducerTest.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

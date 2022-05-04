@@ -34,6 +34,7 @@ pipeline {
                 sleep(time: 20, unit: "SECONDS")
                 dir('backend') {
                     bat 'mvn test -Dtest=RecordControllerTest.java'
+                    bat 'mvn test -Dtest=MessageProducertest.java'
                 }
             }
         }

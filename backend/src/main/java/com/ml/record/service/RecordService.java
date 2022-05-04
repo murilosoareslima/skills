@@ -1,8 +1,6 @@
 package com.ml.record.service;
 
 import java.util.Optional;
-
-import com.google.gson.Gson;
 import com.ml.record.exception.RecordException;
 import com.ml.record.kafka.MessageProducer;
 import com.ml.record.model.Record;
