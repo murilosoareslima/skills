@@ -39,44 +39,17 @@ public class RecordController {
             log.warning("Erro no body da requisição " + response.getErrors().get(0));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        Record savedRecord = null;
-        try {
-            savedRecord = recordService.save(record);
-            response.setData(savedRecord);
-        } catch (Exception ex) {
-            String msgError = "Erro de servidor ao tentar salvar o cadastro \n" + ex.getCause();
-            response.addErrorMsgToResponse(msgError);
-            return ResponseEntity.internalServerError().body(response);
-        }        
+        Record savedRecord = recordService.save(record);
+        response.setData(savedRecord);
         log.info("Cadastro salvo com sucesso!");
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping(value = "/{cpf}")
-    public ResponseEntity<Response<Record>> findByCpf(@PathVariable String cpf) {
+    public ResponseEntity<Response<Record>> findByCpf(@PathVariable String cpf) throws RecordException {
         Response<Record> response = new Response<>();
-        Optional<Record> opRecord = Optional.empty();
-        Record record = null;
-        try {
-            opRecord = recordService.findByCpf(cpf);
-            if (opRecord.isPresent()) {
-                record = opRecord.get();
-            } else {
-                String msgError = "Não encontrado um cadastro com cpf: " + cpf;
-                log.info(msgError);
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-            }
-        } catch (RecordException ex) {
-            String msgError = "O Cpf informado não é válido: " + cpf;
-            log.warning(msgError);
-            response.addErrorMsgToResponse(msgError);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } catch (Exception ex) {
-            String msgError = "Erro de servidor ao tentar fazer a consulta\n" + ex.getCause();
-            log.warning(msgError);
-            response.addErrorMsgToResponse(msgError);
-            return ResponseEntity.internalServerError().body(response);
-        }
+        Optional<Record> opRecord = recordService.findByCpf(cpf);
+        Record record = opRecord.get();
         log.info("Encontrado o cadastro com cpf: " + cpf);
         response.setData(record);
         return ResponseEntity.ok().body(response);

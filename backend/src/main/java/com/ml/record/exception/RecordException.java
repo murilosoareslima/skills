@@ -1,12 +1,19 @@
 package com.ml.record.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class RecordException extends Exception {
+import lombok.Data;
+
+@Data
+public class RecordException extends RuntimeException {
     
-    public RecordException(String message) {
+    @NonNull
+    private HttpStatus httpStatus;
+
+    public RecordException(@Nullable String message, @NonNull HttpStatus httpStatus) {
         super(message);
+        this.httpStatus = httpStatus;
     }
 }

@@ -7,6 +7,7 @@ import com.ml.record.model.Record;
 import com.ml.record.repository.RecordRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,9 +19,9 @@ public class RecordService {
     @Autowired
     private MessageProducer messageProducer;
 
-    public Record save(Record record) {        
+    public Record save(Record record) {
         Record recordSaved = recordRepository.save(record);
-        if(recordSaved != null && !recordSaved.getCpf().isBlank()) {            
+        if (recordSaved != null && !recordSaved.getCpf().isBlank()) {
             messageProducer.sendMessage(recordSaved);
         }
         return recordSaved;
@@ -28,9 +29,13 @@ public class RecordService {
 
     public Optional<Record> findByCpf(String cpf) throws RecordException {
         if (!validaCpf(cpf)) {
-            throw new RecordException("O CPF informado não tem um formato válido");
-        }        
-        return recordRepository.findById(cpf);
+            throw new RecordException("O CPF informado não tem um formato válido", HttpStatus.BAD_REQUEST);
+        }
+        Optional<Record> opRecord = recordRepository.findById(cpf);
+        if (!opRecord.isPresent()) {
+            throw new RecordException(null, HttpStatus.NO_CONTENT);
+        }
+        return opRecord;
     }
 
     private boolean validaCpf(String cpf) {
