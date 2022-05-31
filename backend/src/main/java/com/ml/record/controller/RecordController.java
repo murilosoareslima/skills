@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ExampleProperty;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +33,7 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
+    @ApiOperation(value = "Salva um cadastro", notes = "Salva um novo cadastro no Elasticsearch e envia uma mensagem à um topico do Kafka")    
     @PostMapping
     public ResponseEntity<Response<Record>> save(@Valid @RequestBody Record record,
             BindingResult result) {
@@ -45,6 +49,7 @@ public class RecordController {
         return ResponseEntity.ok().body(response);
     }
 
+    @ApiOperation(value = "Consulta por CPF", notes = "Busca um cadastro por CPF no ElasticSearch")
     @GetMapping(value = "/{cpf}")
     public ResponseEntity<Response<Record>> findByCpf(@PathVariable String cpf) throws RecordException {
         Response<Record> response = new Response<>();
