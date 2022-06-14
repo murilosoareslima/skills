@@ -35,7 +35,7 @@ public class RecordServiceTest {
     public void shouldNotPassCpfFormatInvalid() {
         String cpf = "1111111111g";
         try {
-            recordService.findByCpf(cpf);
+            recordService.findRecordByCpf(cpf);
             fail("Não deve chegar aqui");
         } catch (RecordException e) {
             assertNotNull(e.getMessage());
@@ -47,7 +47,7 @@ public class RecordServiceTest {
     public void shouldNotPassCpfSizeInvalid() {
         String cpf = "1111111111";
         try {
-            recordService.findByCpf(cpf);
+            recordService.findRecordByCpf(cpf);
             fail("Não deve chegar aqui");
         } catch (RecordException e) {
             assertNotNull(e.getMessage());
@@ -59,7 +59,7 @@ public class RecordServiceTest {
     public void shouldPassCpfValid() {
         String cpf = "27348324029";
         try {            
-            Optional<Record> opRecord = recordService.findByCpf(cpf);
+            Optional<Record> opRecord = recordService.findRecordByCpf(cpf);
 
             Mockito.verify(recordRepository, Mockito.times(1)).findById(cpf);
             Mockito.when(recordRepository.findById(cpf)).thenReturn(opRecord);          
@@ -71,7 +71,7 @@ public class RecordServiceTest {
     @Test
     public void shouldSaveRecordValid() {
         Record record = RecordBuildTest.buildRecord(true, true, true);
-        recordService.save(record);
+        recordService.saveRecord(record);
 
         Mockito.verify(recordRepository, Mockito.times(1)).save(record);
         Mockito.when(recordRepository.save(record)).thenReturn(new Record());

@@ -1,5 +1,6 @@
 package com.ml.record.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -10,6 +11,8 @@ import com.ml.record.response.Response;
 import com.ml.record.service.RecordService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -41,21 +44,29 @@ public class RecordController {
             log.warning("Erro no body da requisição " + response.getErrors().get(0));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        Record savedRecord = recordService.save(record);
+        Record savedRecord = recordService.saveRecord(record);
         response.setData(savedRecord);
         log.info("Cadastro salvo com sucesso!");
         return ResponseEntity.ok().body(response);
     }
 
     @ApiOperation(value = "Consulta por CPF", notes = "Busca um cadastro por CPF no ElasticSearch")
-    @GetMapping(value = "/{cpf}")
-    public ResponseEntity<Response<Record>> findByCpf(@PathVariable String cpf) throws RecordException {
+    @GetMapping(value = "/{cpf}")    
+    public ResponseEntity<Response<Record>> findRecordByCpf(@PathVariable String cpf) throws RecordException {
         Response<Record> response = new Response<>();
-        Optional<Record> opRecord = recordService.findByCpf(cpf);
+        Optional<Record> opRecord = recordService.findRecordByCpf(cpf);
         Record record = opRecord.get();
         log.info("Encontrado o cadastro com cpf: " + cpf);
         response.setData(record);
         return ResponseEntity.ok().body(response);
+    }
+
+    @ApiOperation(value = "Consulta todos os cadastros", notes = "Busca todos os cadastros salvos na base")
+    @GetMapping    
+    public ResponseEntity<List<Record>> findAllRecord() {
+        List<Record> records = recordService.findAllRecord();        
+        log.info("Retornando " + records.size() + " cadastros encontrados!");
+        return ResponseEntity.ok(records);
     }
 
 }

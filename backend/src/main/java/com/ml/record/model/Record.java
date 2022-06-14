@@ -1,5 +1,6 @@
 package com.ml.record.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,7 +18,12 @@ import com.ml.record.validator.ListConstraint;
 @Data
 @NoArgsConstructor
 @Document(indexName = "records")
-public class Record {
+public class Record implements Serializable {
+    
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4741996415523499829L;
     
     private static final String NAME_INVALID = "O nome informado não é válido";
     private static final String AGE_INVALID = "A idade informada não é válida";

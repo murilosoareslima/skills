@@ -1,5 +1,7 @@
 package com.ml.record.model;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -9,7 +11,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Address {
+public class Address implements Serializable {
+    
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7471753079585929558L;
     
     private static final String CEP_INVALID = "O cep informado não é válido";
     private static final String STREET_INVALID = "O logradouro informado não é válido";
