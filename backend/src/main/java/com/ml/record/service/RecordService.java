@@ -23,7 +23,7 @@ public class RecordService {
     @Autowired
     private MessageProducer messageProducer;
 
-    @CacheEvict(cacheNames = "Record", allEntries = true)
+    @CacheEvict(cacheNames = "Record", key = "#record.cpf")
     public Record saveRecord(Record record) {
         Record recordSaved = recordRepository.save(record);
         if (recordSaved != null && !recordSaved.getCpf().isBlank()) {
