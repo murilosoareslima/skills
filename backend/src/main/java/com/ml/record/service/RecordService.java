@@ -8,12 +8,15 @@ import com.ml.record.model.Record;
 import com.ml.record.repository.RecordRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+@CacheConfig(cacheNames = "Record")
 @Service
 public class RecordService {
 
@@ -23,7 +26,10 @@ public class RecordService {
     @Autowired
     private MessageProducer messageProducer;
 
-    @CacheEvict(cacheNames = "Record", key = "#record.cpf")
+    @Caching(evict = {
+        @CacheEvict(key = "#record.cpf"),
+        @CacheEvict(value = "allRecords", allEntries = true)
+    })    
     public Record saveRecord(Record record) {
         Record recordSaved = recordRepository.save(record);
         if (recordSaved != null && !recordSaved.getCpf().isBlank()) {
@@ -32,7 +38,7 @@ public class RecordService {
         return recordSaved;
     }
 
-    @Cacheable(cacheNames = "Record", key = "#cpf")
+    @Cacheable(key = "#cpf")
     public Optional<Record> findRecordByCpf(String cpf) throws RecordException {
         if (!validaCpf(cpf)) {
             throw new RecordException("O CPF informado não tem um formato válido", HttpStatus.BAD_REQUEST);
@@ -44,9 +50,8 @@ public class RecordService {
         return opRecord;
     }
 
-    @Cacheable(cacheNames = "Record", key = "#root.method.name")
+    @Cacheable(value = "allRecords")
     public List<Record> findAllRecord() {
-        System.out.println("Entroooooooou");
         List<Record> records = Streamable.of(recordRepository.findAll()).toList();
         if(records.isEmpty()) {
             throw new RecordException(null, HttpStatus.NO_CONTENT);
