@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.Optional;
-
 import com.ml.record.exception.RecordException;
 import com.ml.record.model.Record;
 import com.ml.record.repository.RecordRepository;
@@ -17,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 
 public class RecordServiceTest {
 
@@ -58,13 +57,12 @@ public class RecordServiceTest {
     @Test
     public void shouldPassCpfValid() {
         String cpf = "27348324029";
-        try {            
-            Optional<Record> opRecord = recordService.findRecordByCpf(cpf);
-
-            Mockito.verify(recordRepository, Mockito.times(1)).findById(cpf);
-            Mockito.when(recordRepository.findById(cpf)).thenReturn(opRecord);          
-        } catch (RecordException e) {
+        try {
+            recordService.findRecordByCpf(cpf);
             fail("Não deve chegar aqui");
+        } catch (RecordException e) {
+            Mockito.verify(recordRepository, Mockito.times(1)).findById(cpf);
+            assertEquals(HttpStatus.NO_CONTENT, e.getHttpStatus());
         }
     }
 
